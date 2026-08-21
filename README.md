@@ -1,10 +1,9 @@
 # 🟢 OpenAI 상태(Status) 대시보드 - 한국어판
 
 [status.openai.com](https://status.openai.com)의 공식 실시간 상태 정보를 한국어로 번역 및 현지화(KST 시간 적용)하여 제공하는 Next.js 대시보드 웹 애플리케이션입니다.
-AI를 공부하다가 ChatGPT가 장애가 발생한 것을 확인하기 위해 서치하던도중 공식사이트에서 제종하는 상태페이지가 영어만 제공하는 것을 답답해하는 사람이 바이브코딩으로 만들어 보았습니다.
-모든 것은 openai의 소유이며, 저는 단순히 한글로 번역해서 보기위해 제작하였음을 알려드립니다.
+ChatGPT가 장애가 발생한 것을 확인하려고 알아보던 중 공식사이트에서 제공하는 상태페이지가 영어만 제공하는 것이 답답해서 바이브코딩으로 만들어 보았습니다.
+모든 것은 openai의 소유이며, 저는 단순히 한글로 번역해서 보기위해 제작하였습니다.
 순전히 바이브코딩으로 작성되어 버그가 있을 수 있습니다.
----
 
 ## ✨ 주요 기능
 
@@ -16,60 +15,6 @@ AI를 공부하다가 ChatGPT가 장애가 발생한 것을 확인하기 위해 
 - ⏰ **한국 표준시(KST) 적용**: 모든 타임스탬프를 한국 시간(UTC+9)으로 자동 변환
 - 🌓 **다크 모드 & 라이트 모드**: 사용자의 OS 설정 및 브라우저 테마 자동 감지 및 토글 지원
 - 🔍 **카테고리 필터 및 검색**: ChatGPT, API 및 모델, 개발자 도구별 필터링 및 실시간 검색
-- 🚀 **Vercel 원클릭 배포 지원**: Vercel에 최적화된 Next.js App Router 아키텍처
-
----
-
-## 🛠️ 로컬 개발 환경 실행 방법
-
-```bash
-# 1. 의존성 설치
-npm install
-
-# 2. 로컬 개발 서버 실행
-npm run dev
-
-# 3. 브라우저에서 확인
-http://localhost:3000
-```
-
----
-
-## 🚀 Vercel 배포 가이드
-
-이 프로젝트는 별도의 데이터베이스나 환경 변수 설정 없이 Vercel에 바로 배포할 수 있습니다.
-
-### 방법 1: GitHub 연동 배포 (가장 추천)
-
-1. 현재 프로젝트를 본인의 GitHub 저장소(Repository)에 푸시(Push)합니다:
-   ```bash
-   git init
-   git add .
-   git commit -m "Initial commit: OpenAI Status Korean"
-   git branch -M main
-   git remote add origin <본인의-깃허브-저장소-URL>
-   git push -u origin main
-   ```
-2. [Vercel 대시보드](https://vercel.com/dashboard)로 이동하여 **"Add New Project"**를 클릭합니다.
-3. 방금 푸시한 GitHub 저장소를 선택(Import)합니다.
-4. Framework Preset이 **Next.js**로 자동 감지됩니다.
-5. **"Deploy"** 버튼을 클릭하면 약 1분 이내에 무료 `.vercel.app` 도메인으로 배포가 완료됩니다!
-
----
-
-### 방법 2: Vercel CLI로 즉시 배포
-
-터미널에서 Vercel CLI를 통해 바로 배포할 수도 있습니다:
-
-```bash
-# Vercel CLI 전역 설치 (미설치 시)
-npm i -g vercel
-
-# 배포 실행
-vercel
-```
-
----
 
 ## 📂 프로젝트 구조
 
@@ -92,5 +37,3 @@ vercel
 │   └── types.ts                 # Status API 데이터 타입 인터페이스
 └── package.json
 ```
-
-
