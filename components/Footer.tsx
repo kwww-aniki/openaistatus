@@ -1,12 +1,16 @@
 import React from "react";
-import { ExternalLink, Heart } from "lucide-react";
+import { ExternalLink } from "lucide-react";
 
 export const Footer: React.FC = () => {
   return (
     <footer className="mt-16 border-t border-slate-200 dark:border-slate-800 bg-white/50 dark:bg-slate-900/50 py-8 transition-colors">
       <div className="max-w-5xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500 dark:text-slate-400">
-        <div className="flex flex-col sm:flex-row items-center space-y-1 sm:space-y-0 sm:space-x-3">
+        <div className="flex flex-col items-center sm:items-start space-y-1 text-center sm:text-left">
           <span>본 사이트는 공식 OpenAI 상태 정보를 한국어로 실시간 번역하여 제공합니다.</span>
+          <span>본 사이트는 바이브 코딩을 이용해 개발되었으며, 완벽하지 않습니다.</span>
+          <span>
+            본 사이트의 모든 것은 OpenAI의 소유이며, 제작자는 소유권을 보유하거나 주장하지 않습니다.
+          </span>
         </div>
 
         <div className="flex items-center space-x-4">
@@ -33,5 +37,4 @@ export const Footer: React.FC = () => {
     </footer>
   );
 };
-
 
