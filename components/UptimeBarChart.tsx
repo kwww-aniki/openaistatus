@@ -8,12 +8,14 @@ import { CheckCircle2, AlertTriangle, AlertCircle, ExternalLink } from "lucide-r
 interface UptimeBarChartProps {
   history: DayStatus[];
   showLegend?: boolean;
+  operationalClassName?: string;
   onSelectIncident?: (incident: IncidentItem) => void;
 }
 
 export const UptimeBarChart: React.FC<UptimeBarChartProps> = ({
   history,
   showLegend = true,
+  operationalClassName = "bg-emerald-500 hover:bg-emerald-400 dark:bg-emerald-500/90 dark:hover:bg-emerald-400",
   onSelectIncident,
 }) => {
   const [hoveredDay, setHoveredDay] = useState<{
@@ -25,14 +27,14 @@ export const UptimeBarChart: React.FC<UptimeBarChartProps> = ({
   const getBarColor = (status: DayStatus["status"]) => {
     switch (status) {
       case "operational":
-        return "bg-emerald-500 hover:bg-emerald-400 dark:bg-emerald-500/90 dark:hover:bg-emerald-400";
+        return operationalClassName;
       case "degraded":
       case "partial_outage":
         return "bg-amber-400 hover:bg-amber-300 dark:bg-amber-400 dark:hover:bg-amber-300 ring-1 ring-amber-300/40";
       case "major_outage":
         return "bg-rose-500 hover:bg-rose-400 dark:bg-rose-500 dark:hover:bg-rose-400 ring-1 ring-rose-300/40";
       default:
-        return "bg-emerald-500 hover:bg-emerald-400";
+        return operationalClassName;
     }
   };
 
@@ -153,5 +155,4 @@ export const UptimeBarChart: React.FC<UptimeBarChartProps> = ({
     </div>
   );
 };
-
 

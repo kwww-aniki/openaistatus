@@ -19,6 +19,55 @@ interface SystemStatusViewProps {
   onSelectIncident?: (incident: IncidentItem) => void;
 }
 
+const GROUP_COLORS: Record<
+  string,
+  {
+    card: string;
+    header: string;
+    divider: string;
+    accent: string;
+    operationalBar: string;
+  }
+> = {
+  apis: {
+    card: "border-sky-200 dark:border-sky-900/70",
+    header: "bg-sky-50/70 hover:bg-sky-100/70 dark:bg-sky-950/20 dark:hover:bg-sky-950/35",
+    divider: "border-sky-100 dark:border-sky-900/50",
+    accent: "text-sky-600 dark:text-sky-400",
+    operationalBar: "bg-sky-500 hover:bg-sky-400 dark:bg-sky-500/90 dark:hover:bg-sky-400",
+  },
+  chatgpt: {
+    card: "border-emerald-200 dark:border-emerald-900/70",
+    header: "bg-emerald-50/70 hover:bg-emerald-100/70 dark:bg-emerald-950/20 dark:hover:bg-emerald-950/35",
+    divider: "border-emerald-100 dark:border-emerald-900/50",
+    accent: "text-emerald-600 dark:text-emerald-400",
+    operationalBar: "bg-emerald-500 hover:bg-emerald-400 dark:bg-emerald-500/90 dark:hover:bg-emerald-400",
+  },
+  codex: {
+    card: "border-violet-200 dark:border-violet-900/70",
+    header: "bg-violet-50/70 hover:bg-violet-100/70 dark:bg-violet-950/20 dark:hover:bg-violet-950/35",
+    divider: "border-violet-100 dark:border-violet-900/50",
+    accent: "text-violet-600 dark:text-violet-400",
+    operationalBar: "bg-violet-500 hover:bg-violet-400 dark:bg-violet-500/90 dark:hover:bg-violet-400",
+  },
+  fedramp: {
+    card: "border-amber-200 dark:border-amber-900/70",
+    header: "bg-amber-50/70 hover:bg-amber-100/70 dark:bg-amber-950/20 dark:hover:bg-amber-950/35",
+    divider: "border-amber-100 dark:border-amber-900/50",
+    accent: "text-amber-600 dark:text-amber-400",
+    operationalBar: "bg-amber-500 hover:bg-amber-400 dark:bg-amber-500/90 dark:hover:bg-amber-400",
+  },
+  ads: {
+    card: "border-rose-200 dark:border-rose-900/70",
+    header: "bg-rose-50/70 hover:bg-rose-100/70 dark:bg-rose-950/20 dark:hover:bg-rose-950/35",
+    divider: "border-rose-100 dark:border-rose-900/50",
+    accent: "text-rose-600 dark:text-rose-400",
+    operationalBar: "bg-rose-500 hover:bg-rose-400 dark:bg-rose-500/90 dark:hover:bg-rose-400",
+  },
+};
+
+const DEFAULT_GROUP_COLOR = GROUP_COLORS.chatgpt;
+
 export const SystemStatusView: React.FC<SystemStatusViewProps> = ({
   components,
   incidents,
@@ -26,14 +75,7 @@ export const SystemStatusView: React.FC<SystemStatusViewProps> = ({
   onSelectIncident,
 }) => {
   const [searchQuery, setSearchQuery] = useState("");
-  // Default expanded groups
-  const [expandedGroups, setExpandedGroups] = useState<Record<string, boolean>>({
-    apis: true,
-    chatgpt: true,
-    codex: true,
-    fedramp: true,
-    ads: true,
-  });
+  const [expandedGroups, setExpandedGroups] = useState<Record<string, boolean>>({});
 
   const toggleGroup = (groupId: string) => {
     setExpandedGroups((prev) => ({
@@ -84,6 +126,7 @@ export const SystemStatusView: React.FC<SystemStatusViewProps> = ({
         <div className="space-y-4">
           {groups.map((group) => {
             const isExpanded = !!expandedGroups[group.id];
+            const colors = GROUP_COLORS[group.id] ?? DEFAULT_GROUP_COLOR;
             const filteredGroupComponents = group.components.filter((c) => {
               const query = searchQuery.toLowerCase();
               return (
@@ -104,17 +147,20 @@ export const SystemStatusView: React.FC<SystemStatusViewProps> = ({
             return (
               <div
                 key={group.id}
-                className="bg-white dark:bg-slate-900/90 rounded-2xl border border-slate-200 dark:border-slate-800/90 overflow-hidden shadow-sm transition-all"
+                className={`bg-white dark:bg-slate-900/90 rounded-2xl border-l-4 border-y border-r overflow-hidden shadow-sm transition-all ${colors.card}`}
               >
                 {/* Group Header Button */}
-                <div
+                <button
+                  type="button"
                   onClick={() => toggleGroup(group.id)}
-                  className="p-4 sm:p-5 flex items-center justify-between cursor-pointer hover:bg-slate-50/80 dark:hover:bg-slate-800/40 transition-colors select-none"
+                  aria-expanded={isExpanded}
+                  aria-controls={`group-${group.id}-content`}
+                  className={`w-full p-4 sm:p-5 flex items-center justify-between text-left cursor-pointer transition-colors select-none ${colors.header}`}
                 >
                   <div className="flex items-center space-x-3">
                     {/* Status Icon */}
                     {allOperational ? (
-                      <CheckCircle2 className="w-5 h-5 text-emerald-500 shrink-0" />
+                      <CheckCircle2 className={`w-5 h-5 shrink-0 ${colors.accent}`} />
                     ) : (
                       <AlertTriangle className="w-5 h-5 text-amber-500 shrink-0" />
                     )}
@@ -128,35 +174,36 @@ export const SystemStatusView: React.FC<SystemStatusViewProps> = ({
                       </span>
                     </div>
 
-                    <button
-                      className="p-1 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-transform"
-                      aria-label="그룹 토글"
-                    >
+                    <span className={`p-1 transition-transform ${colors.accent}`} aria-hidden="true">
                       {isExpanded ? (
                         <ChevronUp className="w-4 h-4" />
                       ) : (
                         <ChevronDown className="w-4 h-4" />
                       )}
-                    </button>
+                    </span>
                   </div>
 
                   {/* Group Uptime Percentage */}
                   <div className="flex items-center space-x-2">
-                    <span className="font-semibold text-xs sm:text-sm text-slate-600 dark:text-slate-300 font-mono">
+                    <span className={`font-semibold text-xs sm:text-sm font-mono ${colors.accent}`}>
                       {group.uptimePercentage}% 가동률
                     </span>
                     <span className="text-[10px] text-slate-400 hidden sm:inline">
                       (최근 90일)
                     </span>
                   </div>
-                </div>
+                </button>
 
                 {/* If collapsed: Show group-level 90-day bar preview */}
                 {!isExpanded && (
-                  <div className="px-5 pb-4 pt-1 border-t border-slate-100 dark:border-slate-800/50">
+                  <div
+                    id={`group-${group.id}-content`}
+                    className={`px-5 pb-4 pt-1 border-t ${colors.divider}`}
+                  >
                     <UptimeBarChart
                       history={group.history90Days}
                       showLegend={false}
+                      operationalClassName={colors.operationalBar}
                       onSelectIncident={onSelectIncident}
                     />
                   </div>
@@ -164,7 +211,10 @@ export const SystemStatusView: React.FC<SystemStatusViewProps> = ({
 
                 {/* If expanded: Show list of components with individual 90-day bars */}
                 {isExpanded && (
-                  <div className="divide-y divide-slate-100 dark:divide-slate-800/60 border-t border-slate-100 dark:border-slate-800/60">
+                  <div
+                    id={`group-${group.id}-content`}
+                    className={`divide-y divide-slate-100 dark:divide-slate-800/60 border-t ${colors.divider}`}
+                  >
                     {filteredGroupComponents.map((comp) => {
                       const isNormal = comp.status === "operational";
 
@@ -206,6 +256,7 @@ export const SystemStatusView: React.FC<SystemStatusViewProps> = ({
                             <UptimeBarChart
                               history={comp.history90Days}
                               showLegend={true}
+                              operationalClassName={colors.operationalBar}
                               onSelectIncident={onSelectIncident}
                             />
                           </div>
@@ -222,5 +273,4 @@ export const SystemStatusView: React.FC<SystemStatusViewProps> = ({
     </section>
   );
 };
-
 
