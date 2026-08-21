@@ -22,47 +22,29 @@ interface SystemStatusViewProps {
 const GROUP_COLORS: Record<
   string,
   {
-    card: string;
     header: string;
-    divider: string;
     accent: string;
-    operationalBar: string;
   }
 > = {
   apis: {
-    card: "border-sky-200 dark:border-sky-900/70",
     header: "bg-sky-50/70 hover:bg-sky-100/70 dark:bg-sky-950/20 dark:hover:bg-sky-950/35",
-    divider: "border-sky-100 dark:border-sky-900/50",
     accent: "text-sky-600 dark:text-sky-400",
-    operationalBar: "bg-sky-500 hover:bg-sky-400 dark:bg-sky-500/90 dark:hover:bg-sky-400",
   },
   chatgpt: {
-    card: "border-emerald-200 dark:border-emerald-900/70",
     header: "bg-emerald-50/70 hover:bg-emerald-100/70 dark:bg-emerald-950/20 dark:hover:bg-emerald-950/35",
-    divider: "border-emerald-100 dark:border-emerald-900/50",
     accent: "text-emerald-600 dark:text-emerald-400",
-    operationalBar: "bg-emerald-500 hover:bg-emerald-400 dark:bg-emerald-500/90 dark:hover:bg-emerald-400",
   },
   codex: {
-    card: "border-violet-200 dark:border-violet-900/70",
     header: "bg-violet-50/70 hover:bg-violet-100/70 dark:bg-violet-950/20 dark:hover:bg-violet-950/35",
-    divider: "border-violet-100 dark:border-violet-900/50",
     accent: "text-violet-600 dark:text-violet-400",
-    operationalBar: "bg-violet-500 hover:bg-violet-400 dark:bg-violet-500/90 dark:hover:bg-violet-400",
   },
   fedramp: {
-    card: "border-amber-200 dark:border-amber-900/70",
     header: "bg-amber-50/70 hover:bg-amber-100/70 dark:bg-amber-950/20 dark:hover:bg-amber-950/35",
-    divider: "border-amber-100 dark:border-amber-900/50",
     accent: "text-amber-600 dark:text-amber-400",
-    operationalBar: "bg-amber-500 hover:bg-amber-400 dark:bg-amber-500/90 dark:hover:bg-amber-400",
   },
   ads: {
-    card: "border-rose-200 dark:border-rose-900/70",
     header: "bg-rose-50/70 hover:bg-rose-100/70 dark:bg-rose-950/20 dark:hover:bg-rose-950/35",
-    divider: "border-rose-100 dark:border-rose-900/50",
     accent: "text-rose-600 dark:text-rose-400",
-    operationalBar: "bg-rose-500 hover:bg-rose-400 dark:bg-rose-500/90 dark:hover:bg-rose-400",
   },
 };
 
@@ -147,7 +129,7 @@ export const SystemStatusView: React.FC<SystemStatusViewProps> = ({
             return (
               <div
                 key={group.id}
-                className={`bg-white dark:bg-slate-900/90 rounded-2xl border-l-4 border-y border-r overflow-hidden shadow-sm transition-all ${colors.card}`}
+                className="bg-white dark:bg-slate-900/90 rounded-2xl border border-slate-200 dark:border-slate-800/90 overflow-hidden shadow-sm transition-all"
               >
                 {/* Group Header Button */}
                 <button
@@ -198,12 +180,11 @@ export const SystemStatusView: React.FC<SystemStatusViewProps> = ({
                 {!isExpanded && (
                   <div
                     id={`group-${group.id}-content`}
-                    className={`px-5 pb-4 pt-1 border-t ${colors.divider}`}
+                    className="px-5 pb-4 pt-1 border-t border-slate-100 dark:border-slate-800/50"
                   >
                     <UptimeBarChart
                       history={group.history90Days}
                       showLegend={false}
-                      operationalClassName={colors.operationalBar}
                       onSelectIncident={onSelectIncident}
                     />
                   </div>
@@ -213,7 +194,7 @@ export const SystemStatusView: React.FC<SystemStatusViewProps> = ({
                 {isExpanded && (
                   <div
                     id={`group-${group.id}-content`}
-                    className={`divide-y divide-slate-100 dark:divide-slate-800/60 border-t ${colors.divider}`}
+                    className="divide-y divide-slate-100 dark:divide-slate-800/60 border-t border-slate-100 dark:border-slate-800/60"
                   >
                     {filteredGroupComponents.map((comp) => {
                       const isNormal = comp.status === "operational";
@@ -256,7 +237,6 @@ export const SystemStatusView: React.FC<SystemStatusViewProps> = ({
                             <UptimeBarChart
                               history={comp.history90Days}
                               showLegend={true}
-                              operationalClassName={colors.operationalBar}
                               onSelectIncident={onSelectIncident}
                             />
                           </div>
